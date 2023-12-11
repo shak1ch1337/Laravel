@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\TicketController; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,15 +18,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Route::apiResource('users', UserController::class);
 
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/{user}', [UserController::class, 'show']);
-Route::post('/users', [UserController::class, 'store']);
-Route::patch('/users/{user}', [UserController::class, 'update']);
-Route::delete('/users/{user}', [UserController::class, 'destroy']);
+Route::post('/signup', [UserController::class, 'signup']);
+Route::post('/login', [UserController::class, 'login']);
 
-Route::prefix('/admin')->group(function () {
-    Route::apiResource('categories', CategoryController::class)->only(['index', 'store']);
-});
-
+Route::middleware("auth:sanctum")->apiResource('/events', EventController::class);
+Route::apiResource('/bookings', BookingController::class)->only(['index', 'store', 'show']);
+Route::apiResource('/users', UserController::class)->only('index', 'show', 'update', 'destroy');
