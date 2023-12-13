@@ -12,7 +12,8 @@ class Event extends Model
 
     protected $fillable = [
         'name',
-        'date'
+        'date',
+        'image'
     ];
 
     public function bookings()

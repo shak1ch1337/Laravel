@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,8 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return "Welcome to Home!";
+});
+
+Route::get('/files/{file}', function ($file) {
+    Storage::disk('public')->delete($file);
 });

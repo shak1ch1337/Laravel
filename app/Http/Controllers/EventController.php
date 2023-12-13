@@ -6,6 +6,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Http\Resources\EventResource;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreEventRequest;
 
 class EventController extends Controller
 {
@@ -14,11 +16,15 @@ class EventController extends Controller
         return EventResource::collection(Event::all());
     }
 
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
-        $event = Event::create($request->all());
+        $filename = $request->file('image')->store('/', 'public');
+        $event = Event::create([
+            'image' => $filename
+        ] + $request->validated());
         return $event;
     }
+    
 
     public function show(Event $event)
     {
